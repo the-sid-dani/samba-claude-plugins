@@ -8,9 +8,9 @@ Engineering-grade Claude Code plugins for Samba TV. Provides 19 specialized agen
 # Clone the repo
 git clone https://github.com/the-sid-dani/samba-claude-code-plugins.git
 
-# Install hook dependencies (one-time)
-cd samba-claude-code-plugins/.claude/hooks
-npm install && npm run build
+# Run setup (builds hooks, checks optional CLIs)
+cd samba-claude-code-plugins
+bash setup.sh
 ```
 
 Then open any project with Claude Code — the plugins activate automatically when this repo is configured as a plugin source.
@@ -127,7 +127,7 @@ These CLIs unlock Tier 2 hooks and enhanced skills:
 
 | Tool | Install | What It Enables |
 |------|---------|----------------|
-| [tldr](https://github.com/parcadei/tldr-cli) | `pip install tldr-cli` | 95% token savings, code flow analysis |
+| [tldr](https://github.com/parcadei/tldr-cli) | `uv tool install llm-tldr` | 95% token savings, code flow analysis |
 | [ast-grep](https://ast-grep.github.io/) | `brew install ast-grep` | Structural code search/refactor |
 | [qlty](https://qlty.sh/) | `brew install qlty` | Universal linting (70+ linters) |
 

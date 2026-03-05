@@ -12,10 +12,6 @@ Behavior:
 - If not, suggests running /premortem deep <file>
 - Non-blocking (suggestive only)
 
-Cross-platform:
-- All platforms: Called via `uv run` through hook_launcher.py
-- Fallback: If uv not available, uses python3 (or python on Windows)
-
 Uses only standard library - no dependencies.
 """
 

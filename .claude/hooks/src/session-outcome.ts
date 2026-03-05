@@ -91,27 +91,10 @@ async function main() {
     result: "continue",
     message: `
 
-─────────────────────────────────────────────────
 Session ended: ${sessionName}
 Latest handoff: ${handoffName}
 
-To mark outcome and improve future sessions:
-
-  cd ~/.claude && uv run python scripts/core/artifact_mark.py \\
-    --handoff <handoff-id> \\
-    --outcome SUCCEEDED|PARTIAL_PLUS|PARTIAL_MINUS|FAILED
-
-To find handoff ID, query the database:
-
-  sqlite3 .claude/cache/artifact-index/context.db \\
-    "SELECT id, file_path FROM handoffs WHERE session_name='${sessionName}' ORDER BY indexed_at DESC LIMIT 1"
-
-Outcome meanings:
-  SUCCEEDED      - Task completed successfully
-  PARTIAL_PLUS   - Mostly done, minor issues remain
-  PARTIAL_MINUS  - Some progress, major issues remain
-  FAILED         - Task abandoned or blocked
-─────────────────────────────────────────────────
+Consider creating a handoff with /create_handoff if you haven't already.
 `
   };
 

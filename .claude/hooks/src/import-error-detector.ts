@@ -86,9 +86,9 @@ async function main() {
 
 Consider using /dependency-preflight skill to diagnose:
 
-1. Check Python version: uv run python --version
-2. Check if installed: uv pip show ${result.module || '<module>'}
-3. Verify import: uv run python -c "import ${result.module || '<module>'}"
+1. Check Python version: python3 --version
+2. Check if installed: pip show ${result.module || '<module>'}
+3. Verify import: python3 -c "import ${result.module || '<module>'}"
 
 Or invoke the skill: /dependency-preflight
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,

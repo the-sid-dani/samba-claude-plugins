@@ -723,6 +723,68 @@
                 ]
             }
         },
+        "implement_task": {
+            "type": "domain",
+            "enforcement": "suggest",
+            "priority": "high",
+            "description": "Implementation agent that executes a single task and creates handoff on completion",
+            "promptTriggers": {
+                "keywords": [
+                    "implement task",
+                    "execute task",
+                    "do the task",
+                    "single task",
+                    "implement this",
+                    "just do it"
+                ],
+                "intentPatterns": [
+                    "(implement|execute|do).*?task",
+                    "(single|one|this).*?task.*?(implement|execute)"
+                ]
+            }
+        },
+        "tldr-deep": {
+            "type": "domain",
+            "enforcement": "suggest",
+            "priority": "high",
+            "description": "Full 5-layer analysis of a specific function (AST, Call Graph, CFG, DFG, PDG). Use when debugging or deeply understanding code.",
+            "promptTriggers": {
+                "keywords": [
+                    "tldr deep",
+                    "deep analysis",
+                    "full analysis",
+                    "5-layer",
+                    "analyze function deeply",
+                    "deep dive function"
+                ],
+                "intentPatterns": [
+                    "tldr.*?deep",
+                    "(deep|full|thorough).*?analy.*?(function|method|code)",
+                    "(5|five).*?layer"
+                ]
+            }
+        },
+        "tldr-overview": {
+            "type": "domain",
+            "enforcement": "suggest",
+            "priority": "high",
+            "description": "Token-efficient project overview using TLDR stack. Get project structure without reading every file.",
+            "promptTriggers": {
+                "keywords": [
+                    "tldr overview",
+                    "project overview",
+                    "codebase overview",
+                    "quick overview",
+                    "project summary",
+                    "what is this project"
+                ],
+                "intentPatterns": [
+                    "tldr.*?overview",
+                    "(project|codebase|repo).*?overview",
+                    "(quick|token.*?efficient).*?(overview|summary)"
+                ]
+            }
+        },
         "samba-onboard": {
             "type": "domain",
             "enforcement": "suggest",

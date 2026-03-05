@@ -1,6 +1,5 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { execSync } from 'child_process';
 
 interface SessionStartInput {
   type?: 'startup' | 'resume' | 'clear' | 'compact';  // Legacy field
@@ -282,30 +281,8 @@ interface UnmarkedHandoff {
 }
 
 function getUnmarkedHandoffs(): UnmarkedHandoff[] {
-  try {
-    const projectDir = process.env.CLAUDE_PROJECT_DIR || process.cwd();
-    const dbPath = path.join(projectDir, '.claude', 'cache', 'artifact-index', 'context.db');
-
-    if (!fs.existsSync(dbPath)) {
-      return [];
-    }
-
-    const result = execSync(
-      `sqlite3 "${dbPath}" "SELECT id, session_name, task_number, task_summary FROM handoffs WHERE outcome = 'UNKNOWN' ORDER BY indexed_at DESC LIMIT 5"`,
-      { encoding: 'utf-8', timeout: 3000 }
-    );
-
-    if (!result.trim()) {
-      return [];
-    }
-
-    return result.trim().split('\n').map(line => {
-      const [id, session_name, task_number, task_summary] = line.split('|');
-      return { id, session_name, task_number: task_number || null, task_summary: task_summary || '' };
-    });
-  } catch (error) {
-    return [];
-  }
+  // DB-free: no artifact index available in plugin mode
+  return [];
 }
 
 async function main() {
@@ -415,7 +392,7 @@ async function main() {
                 const summaryPreview = h.task_summary ? h.task_summary.substring(0, 60) + '...' : '(no summary)';
                 additionalContext += `- **${h.session_name}/${taskLabel}** (ID: \`${h.id.substring(0, 8)}\`): ${summaryPreview}\n`;
               }
-              additionalContext += `\nTo mark an outcome:\n\`\`\`bash\ncd ~/.claude && uv run python scripts/core/artifact_mark.py --handoff <ID> --outcome SUCCEEDED|PARTIAL_PLUS|PARTIAL_MINUS|FAILED\n\`\`\`\n`;
+              additionalContext += `\nTo mark an outcome, update the handoff file's status field directly.\n`;
             }
 
             // Add full handoff path for reference
@@ -508,7 +485,7 @@ async function main() {
               const summaryPreview = h.task_summary ? h.task_summary.substring(0, 60) + '...' : '(no summary)';
               additionalContext += `- **${h.session_name}/${taskLabel}** (ID: \`${h.id.substring(0, 8)}\`): ${summaryPreview}\n`;
             }
-            additionalContext += `\nTo mark an outcome:\n\`\`\`bash\ncd ~/.claude && uv run python scripts/core/artifact_mark.py --handoff <ID> --outcome SUCCEEDED|PARTIAL_PLUS|PARTIAL_MINUS|FAILED\n\`\`\`\n`;
+            additionalContext += `\nTo mark an outcome, update the handoff file's status field directly.\n`;
           }
 
           // Add handoff context if available

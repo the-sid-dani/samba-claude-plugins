@@ -1,7 +1,6 @@
 // src/session-start-continuity.ts
 import * as fs from "fs";
 import * as path from "path";
-import { execSync } from "child_process";
 function buildHandoffDirName(sessionName, sessionId) {
   const uuidShort = sessionId.replace(/-/g, "").slice(0, 8);
   return `${sessionName}-${uuidShort}`;
@@ -138,26 +137,7 @@ function getLatestHandoff(handoffDir) {
   };
 }
 function getUnmarkedHandoffs() {
-  try {
-    const projectDir = process.env.CLAUDE_PROJECT_DIR || process.cwd();
-    const dbPath = path.join(projectDir, ".claude", "cache", "artifact-index", "context.db");
-    if (!fs.existsSync(dbPath)) {
-      return [];
-    }
-    const result = execSync(
-      `sqlite3 "${dbPath}" "SELECT id, session_name, task_number, task_summary FROM handoffs WHERE outcome = 'UNKNOWN' ORDER BY indexed_at DESC LIMIT 5"`,
-      { encoding: "utf-8", timeout: 3e3 }
-    );
-    if (!result.trim()) {
-      return [];
-    }
-    return result.trim().split("\n").map((line) => {
-      const [id, session_name, task_number, task_summary] = line.split("|");
-      return { id, session_name, task_number: task_number || null, task_summary: task_summary || "" };
-    });
-  } catch (error) {
-    return [];
-  }
+  return [];
 }
 async function main() {
   const input = JSON.parse(await readStdin());
@@ -246,10 +226,7 @@ ${ledgerSection}`;
 `;
               }
               additionalContext += `
-To mark an outcome:
-\`\`\`bash
-cd ~/.claude && uv run python scripts/core/artifact_mark.py --handoff <ID> --outcome SUCCEEDED|PARTIAL_PLUS|PARTIAL_MINUS|FAILED
-\`\`\`
+To mark an outcome, update the handoff file's status field directly.
 `;
             }
             additionalContext += `
@@ -326,10 +303,7 @@ ${ledgerContent}`;
 `;
             }
             additionalContext += `
-To mark an outcome:
-\`\`\`bash
-cd ~/.claude && uv run python scripts/core/artifact_mark.py --handoff <ID> --outcome SUCCEEDED|PARTIAL_PLUS|PARTIAL_MINUS|FAILED
-\`\`\`
+To mark an outcome, update the handoff file's status field directly.
 `;
           }
           if (latestHandoff) {
