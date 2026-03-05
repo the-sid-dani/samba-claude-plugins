@@ -1,0 +1,142 @@
+{
+    "hooks": {
+        "PreToolUse": [
+            {
+                "matcher": "Read|Edit|Write",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "node $CLAUDE_PROJECT_DIR/.claude/hooks/dist/path-rules.mjs",
+                        "timeout": 5
+                    }
+                ]
+            },
+            {
+                "matcher": "Read",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "node $CLAUDE_PROJECT_DIR/.claude/hooks/dist/tldr-read-enforcer.mjs",
+                        "timeout": 20
+                    }
+                ]
+            },
+            {
+                "matcher": "Grep",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "node $CLAUDE_PROJECT_DIR/.claude/hooks/dist/smart-search-router.mjs",
+                        "timeout": 10
+                    }
+                ]
+            },
+            {
+                "matcher": "Edit",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "node $CLAUDE_PROJECT_DIR/.claude/hooks/dist/edit-context-inject.mjs",
+                        "timeout": 5
+                    },
+                    {
+                        "type": "command",
+                        "command": "node $CLAUDE_PROJECT_DIR/.claude/hooks/dist/signature-helper.mjs",
+                        "timeout": 5
+                    }
+                ]
+            }
+        ],
+        "SessionStart": [
+            {
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "bash $CLAUDE_PROJECT_DIR/.claude/hooks/persist-project-dir.sh"
+                    }
+                ]
+            },
+            {
+                "matcher": "resume|compact|clear",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "node $CLAUDE_PROJECT_DIR/.claude/hooks/dist/session-start-continuity.mjs"
+                    }
+                ]
+            }
+        ],
+        "UserPromptSubmit": [
+            {
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "node $CLAUDE_PROJECT_DIR/.claude/hooks/dist/skill-activation-prompt.mjs"
+                    },
+                    {
+                        "type": "command",
+                        "command": "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/premortem-suggest.py",
+                        "timeout": 5
+                    },
+                    {
+                        "type": "command",
+                        "command": "node $CLAUDE_PROJECT_DIR/.claude/hooks/dist/impact-refactor.mjs",
+                        "timeout": 10
+                    }
+                ]
+            }
+        ],
+        "PostToolUse": [
+            {
+                "matcher": "Edit|Write",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "node $CLAUDE_PROJECT_DIR/.claude/hooks/dist/typescript-preflight.mjs",
+                        "timeout": 40
+                    },
+                    {
+                        "type": "command",
+                        "command": "node $CLAUDE_PROJECT_DIR/.claude/hooks/dist/post-edit-diagnostics.mjs",
+                        "timeout": 10
+                    },
+                    {
+                        "type": "command",
+                        "command": "node $CLAUDE_PROJECT_DIR/.claude/hooks/dist/import-validator.mjs",
+                        "timeout": 5
+                    }
+                ]
+            },
+            {
+                "matcher": "Bash",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "node $CLAUDE_PROJECT_DIR/.claude/hooks/dist/import-error-detector.mjs",
+                        "timeout": 5
+                    }
+                ]
+            }
+        ],
+        "Stop": [
+            {
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "uv run $CLAUDE_PROJECT_DIR/.claude/hooks/auto-handoff-stop.py"
+                    }
+                ]
+            }
+        ],
+        "SessionEnd": [
+            {
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "node $CLAUDE_PROJECT_DIR/.claude/hooks/dist/session-outcome.mjs"
+                    }
+                ]
+            }
+        ]
+    }
+}
