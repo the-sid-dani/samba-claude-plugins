@@ -9,14 +9,6 @@
   },
   "plugins": [
     {
-      "name": "samba-engineering",
-      "source": "./plugins/samba-engineering",
-      "description": "Engineering-grade agents, skills, and hooks for Samba TV. Includes TDD, code review, debugging, security, and release management workflows.",
-      "version": "1.0.0",
-      "category": "engineering",
-      "tags": ["engineering", "agents", "tdd", "code-review", "debugging"]
-    },
-    {
       "name": "quick-commands",
       "source": "./plugins/quick-commands",
       "description": "Handy slash commands for everyday development — explain code, summarize PRs, and more.",
