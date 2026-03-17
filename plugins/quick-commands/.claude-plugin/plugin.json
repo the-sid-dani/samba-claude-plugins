@@ -1,0 +1,8 @@
+{
+  "name": "quick-commands",
+  "version": "1.0.0",
+  "description": "Handy slash commands for everyday development — explain code, summarize PRs, and more.",
+  "author": {
+    "name": "Sid Dani"
+  }
+}

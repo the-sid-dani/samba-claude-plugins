@@ -1,13 +1,28 @@
 {
-  "name": "samba-claude-code-plugins",
+  "name": "samba-plugins",
   "owner": {
-    "name": "Sid Dani"
+    "name": "Sid Dani",
+    "email": "sid.dani@samba.tv"
+  },
+  "metadata": {
+    "description": "Claude Code plugins for Samba TV — engineering workflows, productivity tools, and more."
   },
   "plugins": [
     {
-      "name": "samba-claude-code-plugins",
-      "source": "./",
-      "description": "Engineering-grade Claude Code plugins for Samba TV. 19 agents, 31 skills, and 16 hooks for software development workflows."
+      "name": "samba-engineering",
+      "source": "./plugins/samba-engineering",
+      "description": "Engineering-grade agents, skills, and hooks for Samba TV. Includes TDD, code review, debugging, security, and release management workflows.",
+      "version": "1.0.0",
+      "category": "engineering",
+      "tags": ["engineering", "agents", "tdd", "code-review", "debugging"]
+    },
+    {
+      "name": "quick-commands",
+      "source": "./plugins/quick-commands",
+      "description": "Handy slash commands for everyday development — explain code, summarize PRs, and more.",
+      "version": "1.0.0",
+      "category": "productivity",
+      "tags": ["productivity", "commands", "explain", "summarize"]
     }
   ]
 }
